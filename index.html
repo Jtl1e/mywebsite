@@ -16,11 +16,31 @@
         <h2>Education</h2>
     <ul>
         <li>Bachelor of Science in Cybersecurity, Saint Bonaventure University - <a href="https://www.parchment.com/u/award/f4d9b36aed431be1db8601fb5ca4996e/file" style="color: cyan;">View Certificate</a></li>
-        <li>Masters Of Science in Cybersecurity, Saint Bonaventure University - *Waiting for diploma* Graduated 5/12/24</li>
+        <li>Masters Of Science in Cybersecurity, Saint Bonaventure University - *Waiting for diploma* Graduated 8/22/24</li>
     </ul>
-        <h2> Here are some things I have done</h2>
+   <h2>Here are some things I have done</h2>
         <ul>
-           <strong>Windows Metafile Analyzer:</strong> A tool for analyzing Windows metafiles. Developed by Brian Kellogg with contributions by me. Check it out on <a href="https://github.com/theflakes/fmd" style="color: cyan;">GitHub</a>.
-        </ul>    
+            <li><strong>Windows Metafile Analyzer:</strong> A tool for analyzing Windows metafiles. Developed by Brian Kellogg with contributions by me. Check it out on <a href="https://github.com/theflakes/fmd" style="color: cyan;">GitHub</a>.</li>
+            
+            <li><strong>Malware Detection Project:</strong> Developed machine learning models to detect malware using data from various sources, including API functions, DLLs imported, PE headers, and PE sections. The project involved training Logistic Regression and Random Forest models, evaluating them with and without Principal Component Analysis (PCA), and integrating the results with the fmd tool. <a href="#malware-detection" style="color: cyan;">Learn more</a></li>
+        </ul>
+        
+        <h2 id="malware-detection">Malware Detection Project: Methodology, Challenges, and Integration with the fmd Tool</h2>
+        <p><strong>Introduction:</strong> In this project, I developed machine learning models to detect malware using data from various sources, including API functions, DLLs imported, PE headers, and PE sections. The models were evaluated using Logistic Regression and Random Forest algorithms, with and without Principal Component Analysis (PCA). This section details the process followed, the challenges encountered, and how the results can be integrated with the fmd tool.</p>
+        
+        <h3>Methodology</h3>
+        <p><strong>Data Preparation:</strong> The project started by aggregating and preprocessing data, ensuring no duplicate columns. The target variable 'Type' indicated whether the file was malicious. The top 500 features were selected using the SelectKBest method based on the ANOVA F-statistic, and SMOTE was used to balance the class distribution. Logistic Regression and Random Forest models were trained and evaluated with a 70-30 train-test split, with and without PCA, using GridSearchCV for hyperparameter tuning.</p>
+        
+        <h3>Model Performance</h3>
+        <p>The Random Forest models outperformed Logistic Regression models in AUC-ROC, accuracy, precision, recall, and F1-score metrics. The Random Forest model without PCA had the highest AUC-ROC score of 0.9851 and an accuracy of 0.89.</p>
+        
+        <h3>Challenges Encountered</h3>
+        <p><strong>Convergence Issues:</strong> During training, the Logistic Regression models faced convergence warnings due to the lbfgs solver. Increasing the max_iter parameter mitigated the issue but did not entirely resolve it. <br><strong>Indexing Errors:</strong> An "index out of bounds" error occurred during data visualization, resolved by correct index matching. <br><strong>Class Imbalance:</strong> SMOTE effectively addressed the dataset's class imbalance, leading to more reliable model performance.</p>
+        
+        <h3>Integration with the fmd Tool</h3>
+        <p>The project's results can be integrated with the fmd tool for preprocessing, feature extraction, and real-time analysis. The fmd tool can extract metadata such as PE sections, mime types, and file sizes, which can be directly used in machine-learning models for malware detection. This integration enhances the detection process, making it suitable for forensic and operational cybersecurity environments.</p>
+        
+        <h3>Conclusion</h3>
+        <p>Integrating the results from this project with the fmd tool improves malware detection accuracy and provides richer context, making it a valuable addition to cybersecurity tools.</p>
     </body>
 </html>
