@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Class Leaderboard</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 50%; margin-bottom: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+    input, button { padding: 5px; margin: 5px; }
+  </style>
+</head>
+<body>
+
+<h2> Class Leaderboard</h2>
+<table id="leaderboard">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<h3>Update Your Score</h3>
+<input type="text" id="name" placeholder="Your name" />
+<input type="number" id="score" placeholder="New score" />
+<button onclick="updateScore()">Submit</button>
+
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbw1tLehmxf9mWa7p5fA5fJTx6Gdfy3TOwf7cGrSrDTFhUWdMwGPULLBnfIZjsHocceb/exec';
+
+  function fetchLeaderboard() {
+    fetch(scriptURL)
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector("#leaderboard tbody");
+        tbody.innerHTML = "";
+        data.sort((a, b) => b.score - a.score).forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${row.name}</td><td>${row.score}</td>`;
+          tbody.appendChild(tr);
+        });
+      });
+  }
+
+  function updateScore() {
+    const name = document.getElementById("name").value.trim();
+    const score = parseInt(document.getElementById("score").value);
+
+    if (!name || isNaN(score)) {
+      alert("Please enter both a name and a valid score.");
+      return;
+    }
+
+    fetch(scriptURL, {
+      method: 'POST',
+      body: JSON.stringify({ name, score }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(() => {
+      fetchLeaderboard();
+      document.getElementById("name").value = "";
+      document.getElementById("score").value = "";
+    });
+  }
+
+  fetchLeaderboard();
+</script>
+
+</body>
+</html>
