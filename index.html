@@ -39,7 +39,7 @@
     <body> 
         <h1>Hey, I'm Jason</h1>
         <h2>About me</h2>
-        <p>I am a recent college graduate from St. Bonaventure</p>
+        <p>I am Adjunct Professor at St. Bonaventure</p>
         
         <h2>Education</h2>
         <ul>
@@ -49,11 +49,41 @@
         
         <h2>Here are some things I have done</h2>
         <ul>
-            <li><strong>Windows Metafile Analyzer:</strong> A tool for analyzing Windows metafiles. Developed by Brian Kellogg with contributions by me. Check it out on <a href="https://github.com/theflakes/fmd" style="color: cyan;">GitHub</a>.</li>
+            <li><strong>fmd - File Metadata Tool:</strong> A forensic file metadata tool developed by Brian Kellogg with contributions by me. fmd currently supports parsing Windows LNK files, PE files, Mach-O binaries, and ELF binaries. It can be used to pull metadata, hashes, entropy, mime types, strings, PE section details, and other file analysis data useful for malware analysis and digital forensics. Check it out on <a href="https://github.com/theflakes/fmd" style="color: cyan;">GitHub</a>.</li>
             
             <li><strong>Malware Detection Project:</strong> Developed machine learning models to detect malware using data from various sources, including API functions, DLLs imported, PE headers, and PE sections. The project involved training Logistic Regression and Random Forest models, evaluating them with and without Principal Component Analysis (PCA), and integrating the results with the fmd tool. <a href="#malware-detection" style="color: cyan;">Learn more</a></li>
         </ul>
         
+        <h2 id="fmd-tool" class="collapsible">fmd Tool: File Metadata and Forensic Analysis ▼</h2>
+        <div class="content">
+            <p><strong>Overview:</strong> fmd, short for File Metadata, is a forensic metadata tool designed to extract useful information from files during malware analysis, threat hunting, and digital forensics work.</p>
+
+            <h3>Supported File Types</h3>
+            <ul>
+                <li>Windows LNK files</li>
+                <li>Windows PE files</li>
+                <li>Mach-O binaries</li>
+                <li>ELF binaries</li>
+            </ul>
+
+            <h3>Key Capabilities</h3>
+            <ul>
+                <li>Extracts file metadata for forensic review</li>
+                <li>Performs hashing, entropy checks, mime type detection, and string extraction</li>
+                <li>Supports recursive directory analysis with configurable depth</li>
+                <li>Filters files by extension or interesting mime types</li>
+                <li>Reports PE section information that may help identify packed binaries</li>
+                <li>Can collect additional NTFS-related artifacts, such as alternate data streams and certain timestamps, when run with elevated privileges</li>
+            </ul>
+
+            <h3>Example Usage</h3>
+            <pre style="background-color: #111; color: white; padding: 10px; overflow-x: auto;"><code>fmd --pretty --depth 3 --extensions 'exe,dll,pif,ps1,bat,com'
+fmd --pretty --depth 3 --extensions 'not:exe,dll,pif,ps1,bat,com'</code></pre>
+
+            <h3>Project Link</h3>
+            <p>You can view the project on <a href="https://github.com/theflakes/fmd" style="color: cyan;">GitHub</a>.</p>
+        </div>
+
         <h2 id="malware-detection" class="collapsible">Malware Detection Project: Methodology, Challenges, and Integration with the fmd Tool ▼</h2>
         <div class="content">
             <p><strong>Introduction:</strong> In this project, I developed machine learning models to detect malware using data from various sources, including API functions, DLLs imported, PE headers, and PE sections. The models were evaluated using Logistic Regression and Random Forest algorithms, with and without Principal Component Analysis (PCA). This section details the process followed, challenges encountered, and how the results can be integrated with the fmd tool.</p>
@@ -79,15 +109,17 @@
             var i;
 
             for (i = 0; i < coll.length; i++) {
+                coll[i].setAttribute("data-title", coll[i].innerHTML.replace(" ▼", "").replace(" ▲", ""));
                 coll[i].addEventListener("click", function() {
                     this.classList.toggle("active");
                     var content = this.nextElementSibling;
+                    var title = this.getAttribute("data-title");
                     if (content.style.display === "block") {
                         content.style.display = "none";
-                        this.innerHTML = "Malware Detection Project: Methodology, Challenges, and Integration with the fmd Tool ▼";
+                        this.innerHTML = title + " ▼";
                     } else {
                         content.style.display = "block";
-                        this.innerHTML = "Malware Detection Project: Methodology, Challenges, and Integration with the fmd Tool ▲";
+                        this.innerHTML = title + " ▲";
                     }
                 });
             }
